@@ -29,16 +29,16 @@ DEFAULT_DATA_QUALITY_RULESET = """
 """
 
 # Script generated for node S3 bucket accelerometer
-S3bucketaccelerometer_node1751486164545 = glueContext.create_dynamic_frame.from_options(format_options={"multiLine": "false"}, connection_type="s3", format="json", connection_options={"paths": ["s3://em-stedi-lkhouse/accelerometer/landing/"], "recurse": True}, transformation_ctx="S3bucketaccelerometer_node1751486164545")
+S3bucketaccelerometer_node1751486164545 = glueContext.create_dynamic_frame.from_options(format_options={"multiLine": "false"}, connection_type="s3", format="json", connection_options={"paths": ["s3://em-stedi-lkhouse/accelerometer/trusted/"], "recurse": True}, transformation_ctx="S3bucketaccelerometer_node1751486164545")
 
 # Script generated for node S3 bucket customer
 S3bucketcustomer_node1751486453275 = glueContext.create_dynamic_frame.from_options(format_options={"multiLine": "false"}, connection_type="s3", format="json", connection_options={"paths": ["s3://em-stedi-lkhouse/customer/trusted/"], "recurse": True}, transformation_ctx="S3bucketcustomer_node1751486453275")
 
 # Script generated for node Privacy filter
-SqlQuery575 = '''
+SqlQuery257 = '''
 select * from myDataSource_ac join myDataSource_cs on myDataSource_ac.user = myDataSource_cs.email;
 '''
-Privacyfilter_node1751486172777 = sparkSqlQuery(glueContext, query = SqlQuery575, mapping = {"myDataSource_ac":S3bucketaccelerometer_node1751486164545, "myDataSource_cs":S3bucketcustomer_node1751486453275}, transformation_ctx = "Privacyfilter_node1751486172777")
+Privacyfilter_node1751486172777 = sparkSqlQuery(glueContext, query = SqlQuery257, mapping = {"myDataSource_ac":S3bucketaccelerometer_node1751486164545, "myDataSource_cs":S3bucketcustomer_node1751486453275}, transformation_ctx = "Privacyfilter_node1751486172777")
 
 # Script generated for node Drop Fields
 DropFields_node1751487467027 = DropFields.apply(frame=Privacyfilter_node1751486172777, paths=["z", "y", "x", "timestamp", "user"], transformation_ctx="DropFields_node1751487467027")
